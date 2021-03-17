@@ -9,8 +9,8 @@ after that, type "npm start"
 The website will now start locally on your pc
   
 ## A special thank you to:
-Wizrad
-Coin Operated
-BusyBugsy
-Ryan Storm
+Wizrad,
+Coin Operated,
+BusyBugsy,
+Ryan Storm,
 Beans
