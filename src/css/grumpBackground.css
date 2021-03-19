@@ -8,7 +8,7 @@ body {
 .bg-gradient {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(#E77032 0%, #D67940 100%);
+  background: linear-gradient(#f5883bff 0%, #f29f46ff 100%);
 }
 
 .bg-dots {
@@ -16,8 +16,8 @@ body {
   height: 100vh;
   background-position: 0 0, 15px 15px;
   background-size: 30px 30px;
-  background-image: radial-gradient(#EC994F 35%, transparent 35%),
-    radial-gradient(#EC994F 35%, transparent 35%);
+  background-image: radial-gradient(#f17930ff 35%, transparent 35%),
+    radial-gradient(#f17930ff 35%, transparent 35%);
   animation: bgscroll 1s infinite linear;
 }
 
