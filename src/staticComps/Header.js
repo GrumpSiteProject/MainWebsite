@@ -16,11 +16,11 @@ function Header(){
     const classes=useStyles()
 return(
     <div className={classes.header}>
-<img src={arin} height="195" width="155"></img>
-<img src={dan} height="195" width="155"></img>
-<img src={ninjaBrian} height="195" width="155"></img>
-<img src={suzy} height="195" width="155"></img>
-<img src={ross} height="195" width="155"></img>
+<img src={arin} height="195" width="155" alt="arin"></img>
+<img src={dan} height="195" width="155" alt="dan"></img>
+<img src={ninjaBrian} height="195" width="155" alt="ninjaBrian"></img>
+<img src={suzy} height="195" width="155" alt="suzy"></img>
+<img src={ross} height="195" width="155" alt="ross"></img>
     </div>
 )
 }
