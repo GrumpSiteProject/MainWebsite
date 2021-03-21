@@ -32,9 +32,12 @@ export const useStyles = makeStyles((theme) => ({
         width: "70px",
         height: "70px",
         top: "10px",
-        left: "10px"
+        left: "22px"
     },
     thankSpace: {
         height: "10px"
+    },
+    username:{
+        textAlign:"center"
     }
 }));

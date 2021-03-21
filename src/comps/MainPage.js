@@ -29,7 +29,7 @@ function MainPage() {
                         <Box className={classes.thankBox}>
                             <div>
                                 <Avatar alt="sbeajy" src={profilePics[index]} className={classes.avatars}></Avatar>
-                                <p>{names[index]}</p>
+                                <p className={classes.username}>{names[index]}</p>
                             </div>
                             <div className={classes.thankText}>
                                 <p>{thankMsgs}</p>
@@ -40,7 +40,7 @@ function MainPage() {
                         <Box className={classes.oddThankBox}>
                             <div>
                                 <Avatar alt="sbeajy" src={profilePics[index]} className={classes.avatars}></Avatar>
-                                <p>{names[index]}</p>
+                                <p className={classes.username}>{names[index]}</p>
                             </div>
                             <div className={classes.thankText}>
                                 <p>{thankMsgs}</p>
