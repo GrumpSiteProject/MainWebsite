@@ -4,11 +4,18 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { thankMsg, names, profilePics } from '../putInDatabaseLater/strings/ThankYou';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
-import {useStyles} from "../css/mainPageStyles"
+import { useStyles } from "../css/mainPageStyles"
+import { useState } from "react"
+import { Redirect } from "react-router";
 
 // https://cdn.discordapp.com/avatars/195544804988420096/2be24761d2ba1bf21159555bf3bdff35.png?size=128
 function MainPage() {
+    const [isClickedForTheater, setIsClickedForTheater] = useState(false)
+
     function isOdd(num) { return num % 2; }
+    function buttonTheaterListener() {
+        setIsClickedForTheater(true)
+    }
     const classes = useStyles();
     console.log(names[1])
     return (
@@ -17,11 +24,12 @@ function MainPage() {
 
                 <ButtonGroup color="primary" aria-label="outlined primary button group">
                     <Button>Home</Button>
-                    <Button>About</Button>
+                    <Button onClick={() =>buttonTheaterListener()}>Animation Theater</Button>
                     <Button>Faq</Button>
                     <Button>HOT GAME GRUMPS FOOTAGE</Button>
                     <Button>local clown snatches in your area</Button>
                 </ButtonGroup>
+                {isClickedForTheater ? <Redirect to="/theatre"/> : null}
             </div>
             {thankMsg.map((thankMsgs, index) =>
                 <div>
