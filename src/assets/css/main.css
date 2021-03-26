@@ -1,0 +1,49 @@
+html,
+body,
+#root,
+.app {
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  overflow-x: hidden;
+  font-family: sans-serif;
+}
+
+.page-container {
+  height: 100%;
+  position: relative;
+}
+
+/* Makes content take up atleast the entire page (minus the footer) */
+.content-wrap {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  height: inherit;
+  overflow-x: hidden;
+  margin-bottom: -2.5rem;
+}
+
+.footer-push {
+  height: 2.5rem;
+}
+
+/* Temporary footer styling */
+#footer {
+  position: relative;
+  width: 100%;
+  height: 2.5rem;
+  overflow: hidden;
+  background: #000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#footer p {
+  margin: 0px;
+  color: #444;
+}
