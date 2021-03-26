@@ -15,34 +15,6 @@ import PageNotFound from "./staticComps/PageNotFound";
 function App() {
   return (
     <div className="app">
-      {/* <Switch>
-        <Route exact path="/">
-          <div className="page-container">
-            <div className="content-wrap">
-              <div className="bg-gradient">
-                <div className="bg-dots">
-                  <Header />
-
-                  <MainPage />
-                </div>
-              </div>
-            </div>
-
-            <Footer />
-          </div>
-        </Route>
-
-        <Route path="/theatre">
-          <div className="bg-gradient">
-            <div class="bg-dots">
-              <Theater />
-
-              <Footer />
-            </div>
-          </div>
-        </Route>
-      </Switch> */}
-
       <Switch>
         <Route exact path="/">
           <div className="page-container">
