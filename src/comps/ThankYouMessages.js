@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+// Material UI components
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -13,13 +14,16 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
+// Material UI stlying
 import { withStyles } from "@material-ui/core/styles";
 import { styles } from "../assets/styles/ThankYouMessagesStyles";
 
+// Text truncation components
 import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
 const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 
+// Read more component
 function MessageFooter(props) {
   if (props.clamped) {
     return (
@@ -36,10 +40,12 @@ function MessageFooter(props) {
   }
 }
 
+// Main component class
 class ThankYouMessages extends React.Component {
   constructor(props) {
     super(props);
 
+    // Import JSON data
     let messages = require("../assets/putInDatabaseLater/strings/ThankYou.json").map(
       (data) => {
         return {
@@ -62,6 +68,7 @@ class ThankYouMessages extends React.Component {
     };
   }
 
+  // Sets truncation state for a message
   handleReflow(e, i) {
     if (this.state.messages[i].clamped !== e.clamped) {
       let newMessages = this.state.messages.slice();
@@ -76,6 +83,7 @@ class ThankYouMessages extends React.Component {
     }
   }
 
+  // Opens dialog box for given message
   handleOpen(message) {
     this.setState({
       dialogOpen: true,
@@ -87,6 +95,7 @@ class ThankYouMessages extends React.Component {
     });
   }
 
+  // Closes dialog box
   handleClose() {
     this.setState({ dialogOpen: false });
   }
@@ -165,8 +174,6 @@ class ThankYouMessages extends React.Component {
           aria-labelledby="dialog-title"
           aria-describedby="dialog-description"
         >
-          {/* <DialogTitle id="dialog-title">{this.state.dialog.name}</DialogTitle> */}
-
           <DialogContent style={{ overflow: "hidden" }}>
             <Grid container direction="row" spacing={3}>
               <Grid item>
@@ -202,6 +209,7 @@ class ThankYouMessages extends React.Component {
   }
 }
 
+// Inject Material UI Style classes
 ThankYouMessages.propTypes = {
   classes: PropTypes.object.isRequired,
 };
