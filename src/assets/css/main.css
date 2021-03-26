@@ -12,16 +12,22 @@ body,
 }
 
 .page-container {
-  height: 100%;
+  display: table;
+
+  height: inherit;
+  width: 100%;
+
   position: relative;
 }
 
 /* Makes content take up atleast the entire page (minus the footer) */
 .content-wrap {
   display: table;
+
+  height: inherit;
   width: 100%;
   max-width: 100%;
-  height: inherit;
+
   overflow-x: hidden;
   margin-bottom: -2.5rem;
 }
