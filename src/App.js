@@ -15,7 +15,7 @@ import PageNotFound from "./staticComps/PageNotFound";
 
 function App() {
   return (
-    <div className="app">
+    <div id="app">
       <Switch>
         <Route exact path="/">
           <div className="page-container">
