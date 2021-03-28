@@ -1,19 +1,22 @@
 // Spoofy artist component
 
+import { Component } from "react";
+import PropTypes from "prop-types";
+
 // Material UI components
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
 // Material UI stlying
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 
 // Text truncation components
 import LinesEllipsis from "react-lines-ellipsis";
 import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
 const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
   root: {
     textDecoration: "none",
   },
@@ -28,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
 
-  artistCover: {
+  cover: {
     position: "absolute",
 
     top: "0",
@@ -59,41 +62,86 @@ const useStyles = makeStyles((theme) => ({
   description: {
     color: "#595959",
   },
-}));
+});
 
-export default function Artist(props) {
-  const classes = useStyles();
+class Artist extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <a
-      href={props.link}
-      target={props.link ? "_blank" : ""}
-      rel="noreferrer"
-      className={classes.root}
-    >
-      <Grid container direction="column">
-        <Grid item xs className={classes.coverWrapper}>
-          <Box
-            className={classes.artistCover}
-            style={{ backgroundImage: "url(" + props.src + ")" }}
-          ></Box>
+    this.state = {
+      name: props.name,
+      link: props.link,
+      src: "",
+      loadSrc: props.src,
+      maxLoadAttempts: props.loadAttempts || 5,
+    };
+  }
+
+  componentDidMount() {
+    let attempts = 0;
+
+    let imageLoader = new Image();
+    imageLoader.src = this.state.loadSrc;
+
+    imageLoader.onload = () => {
+      this.setState({ src: this.state.loadSrc });
+    };
+
+    imageLoader.onerror = () => {
+      if (attempts >= this.state.maxLoadAttempts) return;
+
+      console.log("error loading image trying again");
+      let imageLoader = new Image();
+      imageLoader.src = this.state.loadSrc;
+
+      attempts++;
+    };
+  }
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <a
+        href={this.state.link}
+        target={this.state.link ? "_blank" : ""}
+        rel="noreferrer"
+        className={classes.root}
+      >
+        <Grid container direction="column">
+          <Grid item xs className={classes.coverWrapper}>
+            <Box
+              className={classes.cover}
+              style={{ backgroundImage: "url(" + this.state.src + ")" }}
+            ></Box>
+          </Grid>
+
+          <Grid item xs>
+            <Typography variant="subtitle1" className={classes.name}>
+              {this.state.name}
+            </Typography>
+
+            <ResponsiveEllipsis
+              text={this.props.children}
+              maxLine="3"
+              ellipsis="..."
+              trimRight
+              basedOn="letters"
+              className={classes.description}
+            />
+          </Grid>
         </Grid>
-
-        <Grid item xs>
-          <Typography variant="subtitle1" className={classes.name}>
-            {props.name}
-          </Typography>
-
-          <ResponsiveEllipsis
-            text={props.children}
-            maxLine="3"
-            ellipsis="..."
-            trimRight
-            basedOn="letters"
-            className={classes.description}
-          />
-        </Grid>
-      </Grid>
-    </a>
-  );
+      </a>
+    );
+  }
 }
+
+Artist.propTypes = {
+  classes: PropTypes.object.isRequired,
+  name: PropTypes.string,
+  link: PropTypes.string,
+  src: PropTypes.string,
+  loadAttempts: PropTypes.number,
+};
+
+export default withStyles(styles)(Artist);
