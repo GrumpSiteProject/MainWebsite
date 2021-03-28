@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
     "&:hover": {
       transform: "scale(1.05)",
-      boxShadow: "0 0 3rem -0.5rem rgba(250, 196, 157, 0.2)",
+      boxShadow: "0 0 3rem -0.5rem rgba(214, 254, 255, 0.2)",
     },
   },
 

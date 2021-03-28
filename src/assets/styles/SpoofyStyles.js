@@ -1,6 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-
-export const useStyles = makeStyles((theme) => ({
+export const styles = (theme) => ({
   root: {
     background: "#000",
     display: "table-cell",
@@ -84,6 +82,12 @@ export const useStyles = makeStyles((theme) => ({
     background: "rgb(0,0,0)",
     background:
       "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%)",
+
+    transition: "opacity 0.25s ease",
+  },
+
+  hide: {
+    opacity: "0",
   },
 
   // fade: {
@@ -91,4 +95,4 @@ export const useStyles = makeStyles((theme) => ({
   //   width: "100%",
   //   height: 0,
   // },
-}));
+});
