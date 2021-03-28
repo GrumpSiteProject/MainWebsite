@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 
 import ThankYouMessages from "./comps/ThankYouMessages";
 import Theater from "./comps/theatrePage/Theatre";
+import Spoofy from "./comps/Spoofy/Spoofy";
 
 import Navbar from "./staticComps/Navbar";
 import Footer from "./staticComps/Footer";
@@ -24,8 +25,6 @@ function App() {
                   <Navbar />
 
                   <ThankYouMessages />
-
-                  <div className="footer-push"></div>
                 </div>
               </div>
             </div>
@@ -42,10 +41,18 @@ function App() {
                   <Navbar />
 
                   <Theater />
-
-                  <div className="footer-push"></div>
                 </div>
               </div>
+            </div>
+
+            <Footer />
+          </div>
+        </Route>
+
+        <Route path="/spoofy">
+          <div className="page-container">
+            <div className="content-wrap">
+              <Spoofy />
             </div>
 
             <Footer />
@@ -60,8 +67,6 @@ function App() {
                   <Navbar />
 
                   <PageNotFound />
-
-                  <div className="footer-push"></div>
                 </div>
               </div>
             </div>
