@@ -17,12 +17,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navbar() {
+function Navbar(props) {
   const classes = useStyles();
 
-  return (
-    <Container className={classes.root} maxWidth="lg">
-      <ButtonGroup variant="contained" color="primary" aria-label="navbar">
+  if (!props.inline) {
+    return (
+      <Container className={classes.root} maxWidth="lg">
+        <ButtonGroup
+          variant={props.variant || "contained"}
+          color={props.color || "primary"}
+          aria-label="navbar"
+        >
+          <Button component={Link} to="/">
+            Home
+          </Button>
+
+          <Button component={Link} to="/theatre">
+            Theater
+          </Button>
+
+          <Button component={Link} to="/spoofy">
+            Spoofy
+          </Button>
+
+          <Button>local clown snatches in your area</Button>
+        </ButtonGroup>
+      </Container>
+    );
+  } else {
+    return (
+      <ButtonGroup
+        variant={props.variant || "contained"}
+        color={props.color || "primary"}
+        aria-label="navbar"
+      >
         <Button component={Link} to="/">
           Home
         </Button>
@@ -31,12 +59,14 @@ function Navbar() {
           Theater
         </Button>
 
-        <Button>Spoofy</Button>
+        <Button component={Link} to="/spoofy">
+          Spoofy
+        </Button>
 
         <Button>local clown snatches in your area</Button>
       </ButtonGroup>
-    </Container>
-  );
+    );
+  }
 }
 
 export default Navbar;
