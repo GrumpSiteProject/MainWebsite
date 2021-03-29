@@ -2,10 +2,14 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
+import {useState} from "react"
 
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import IconButton from '@material-ui/core/IconButton';
+import Home from "../assets/putInDatabaseLater/pics/navbarButtons/Home-01.png"
+import HomeHover from "../assets/putInDatabaseLater/pics/navbarButtons/Home_Hover-01.png"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,17 +19,28 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  imgButton: {
+    height:50,
+    width:100
+  }
 }));
 
 function Navbar() {
   const classes = useStyles();
-
+const [img, setImg] = useState(Home)
+function onHoverHome() {
+  setImg(HomeHover)
+}
+function test() {
+  console.log("test")
+}
   return (
     <Container className={classes.root} maxWidth="lg">
       <ButtonGroup variant="contained" color="primary" aria-label="navbar">
-        <Button component={Link} to="/">
-          Home
-        </Button>
+        <IconButton onMouseOver={() =>onHoverHome()} component={Link} to="/">
+        <img src={img}  onMouseLeave={() => test} className={classes.imgButton}>
+        </img>
+        </IconButton>
 
         <Button component={Link} to="/theatre">
           Theater
