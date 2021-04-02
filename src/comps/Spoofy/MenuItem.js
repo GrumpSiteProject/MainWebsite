@@ -9,9 +9,9 @@ const useStyles = makeStyles((theme) => ({
       margin: "0px",
     },
 
-    display: "inline-block",
+    display: "block",
 
-    width: "100%",
+    maxWidth: "100%",
     padding: "0.5rem",
 
     borderRadius: "0.5rem",

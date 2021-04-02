@@ -24,7 +24,7 @@ export default function Home(props) {
       </Typography>
 
       <Grid container direction="row" spacing={4}>
-        <Grid item sm={12} md={6} lg={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Artist
             name="Starbomb"
             src={starbomb}
@@ -38,7 +38,7 @@ export default function Home(props) {
           </Artist>
         </Grid>
 
-        <Grid item sm={12} md={6} lg={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Artist
             name="Ninja Sex Party"
             src={ninjaSexParty}
@@ -49,7 +49,7 @@ export default function Home(props) {
           </Artist>
         </Grid>
 
-        <Grid item sm={12} md={6} lg={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <Artist name="Avigdor Avidan" src={aviAvidan}>
             Avigdor "Avi" Avidan is the father of Danny. He was born in Israel.
             Danny often tells stories about Avi and will imitate things he says

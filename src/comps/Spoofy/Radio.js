@@ -31,7 +31,7 @@ export default function Radio(props) {
 
       <Grid container direction="row" spacing={4}>
         {Albums.map((album, i) => (
-          <Grid key={i} item sm={12} md={6} lg={3}>
+          <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
             <Album
               name={album.name}
               artist={album.artist}

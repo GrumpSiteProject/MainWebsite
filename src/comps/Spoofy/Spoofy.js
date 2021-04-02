@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 
 // Material UI components
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import Hidden from "@material-ui/core/Hidden";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 
@@ -13,6 +17,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { styles } from "../../assets/styles/SpoofyStyles";
 
 // Icons
+import MenuIcon from "@material-ui/icons/MenuRounded";
+import CloseIcon from "@material-ui/icons/CloseRounded";
 import HomeIcon from "@material-ui/icons/HomeRounded";
 import AlbumIcon from "@material-ui/icons/AlbumRounded";
 import RadioIcon from "@material-ui/icons/RadioRounded";
@@ -25,8 +31,9 @@ import Browse from "./Browse";
 import Radio from "./Radio";
 import Playbar from "./Playbar";
 
-// Logo image
+// Logo images
 import logo from "../../assets/images/spoofy/logo.svg";
+import logoSm from "../../assets/images/spoofy/logoSm.svg";
 
 // Artist images
 import starbomb from "../../assets/images/spoofy/artistCovers/Starbomb.png";
@@ -36,9 +43,23 @@ class Spoofy extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      top: false,
       bottom: false,
+      drawerOpen: false,
     };
   }
+
+  // Checks if the app has been scrolled to the bottom
+  checkTop = () => {
+    const el = document.getElementById("app");
+    const footer = document.getElementById("footer");
+
+    if (el.scrollTop === 0) {
+      if (!this.state.top) this.setState({ top: true });
+    } else {
+      if (this.state.top) this.setState({ top: false });
+    }
+  };
 
   // Checks if the app has been scrolled to the bottom
   checkBottom = () => {
@@ -55,6 +76,18 @@ class Spoofy extends Component {
     }
   };
 
+  toggleDrawer = (open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    this.setState({ drawerOpen: open });
+  };
+
   componentDidMount() {
     console.log(
       `
@@ -63,10 +96,15 @@ class Spoofy extends Component {
     `
     );
 
+    this.checkTop();
+    this.checkBottom();
+
+    document.getElementById("app").addEventListener("scroll", this.checkTop);
     document.getElementById("app").addEventListener("scroll", this.checkBottom);
   }
 
   componentWillUnmount() {
+    document.getElementById("app").removeEventListener("scroll", this.checkTop);
     document
       .getElementById("app")
       .removeEventListener("scroll", this.checkBottom);
@@ -74,107 +112,138 @@ class Spoofy extends Component {
 
   render() {
     const { classes } = this.props;
+    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     return (
       <div className={classes.root}>
         <Grid container direction="row" className={classes.wrapper}>
           <Grid item xs className={classes.main}>
-            <Grid
-              container
-              direction="row"
-              alignItems="center"
-              className={classes.topBar}
-            >
-              <Grid item className={classes.logoWrapper}>
-                <img alt="spoofy" src={logo} className={classes.logo} />
-              </Grid>
+            <Hidden mdDown>
+              <Grid
+                container
+                direction="row"
+                alignItems="center"
+                className={classes.topBar}
+              >
+                <Grid item className={classes.logoWrapper}>
+                  <img alt="spoofy" src={logo} className={classes.logo} />
+                </Grid>
 
-              <Grid item container xs justify="flex-end">
-                <Navbar variant="outlined" inline={true} />
-              </Grid>
-            </Grid>
-
-            <Grid container direction="row">
-              <Grid item className={classes.sidebar}>
-                <Grid
-                  container
-                  direction="column"
-                  spacing={1}
-                  style={{ width: "100%" }}
-                >
-                  <Grid item>
-                    <MenuItem active={true}>
-                      <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        className={classes.menuContent}
-                      >
-                        <Grid item>
-                          <HomeIcon />
-                        </Grid>
-                        <Grid item>
-                          <h3>Home</h3>
-                        </Grid>
-                      </Grid>
-                    </MenuItem>
-                  </Grid>
-
-                  <Grid item>
-                    <MenuItem active={false}>
-                      <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        className={classes.menuContent}
-                      >
-                        <Grid item>
-                          <AlbumIcon />
-                        </Grid>
-                        <Grid item>
-                          <h3>Browse</h3>
-                        </Grid>
-                      </Grid>
-                    </MenuItem>
-                  </Grid>
-
-                  <Grid item>
-                    <MenuItem active={false}>
-                      <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        className={classes.menuContent}
-                      >
-                        <Grid item>
-                          <RadioIcon />
-                        </Grid>
-                        <Grid item>
-                          <h3>Radio</h3>
-                        </Grid>
-                      </Grid>
-                    </MenuItem>
-                  </Grid>
-
-                  <Grid item>
-                    <Typography
-                      variant="h5"
-                      noWrap={true}
-                      style={{
-                        marginBottom: "1rem",
-                        marginTop: "1rem",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      YOUR LIBRARY
-                    </Typography>
-                  </Grid>
-
-                  <MenuItem active={false}>
-                    <h3>Avi Stories</h3>
-                  </MenuItem>
+                <Grid item container xs justify="flex-end">
+                  <Navbar variant="outlined" inline={true} />
                 </Grid>
               </Grid>
+            </Hidden>
+
+            <Hidden lgUp>
+              <Container maxWidth="xl" className={classes.topBarSmWrapper}>
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="center"
+                  className={`${classes.topBarSm} ${
+                    this.state.top ? "" : classes.scrolled
+                  }`}
+                >
+                  <Grid item xs className={classes.logoWrapper}>
+                    <img alt="spoofy" src={logoSm} className={classes.logo} />
+                  </Grid>
+
+                  <Grid item>
+                    <IconButton
+                      color="primary"
+                      variant="contained"
+                      onClick={() =>
+                        this.setState({ drawerOpen: !this.state.drawerOpen })
+                      }
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Container>
+            </Hidden>
+
+            <Grid container direction="row">
+              <Hidden mdDown>
+                <Grid item className={classes.sidebar}>
+                  <Grid container direction="column" spacing={1}>
+                    <Grid item>
+                      <MenuItem active={true}>
+                        <Grid
+                          container
+                          spacing={2}
+                          alignItems="center"
+                          className={classes.menuContent}
+                        >
+                          <Grid item>
+                            <HomeIcon />
+                          </Grid>
+                          <Grid item>
+                            <h3>Home</h3>
+                          </Grid>
+                        </Grid>
+                      </MenuItem>
+                    </Grid>
+
+                    <Grid item>
+                      <MenuItem active={false}>
+                        <Grid
+                          container
+                          spacing={2}
+                          alignItems="center"
+                          className={classes.menuContent}
+                        >
+                          <Grid item>
+                            <AlbumIcon />
+                          </Grid>
+                          <Grid item>
+                            <h3>Browse</h3>
+                          </Grid>
+                        </Grid>
+                      </MenuItem>
+                    </Grid>
+
+                    <Grid item>
+                      <MenuItem active={false}>
+                        <Grid
+                          container
+                          spacing={2}
+                          alignItems="center"
+                          className={classes.menuContent}
+                        >
+                          <Grid item>
+                            <RadioIcon />
+                          </Grid>
+                          <Grid item>
+                            <h3>Radio</h3>
+                          </Grid>
+                        </Grid>
+                      </MenuItem>
+                    </Grid>
+
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        noWrap={true}
+                        style={{
+                          marginBottom: "1rem",
+                          marginTop: "1rem",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        YOUR LIBRARY
+                      </Typography>
+                    </Grid>
+
+                    <Grid item>
+                      <MenuItem active={false}>
+                        <h3>Avi Stories</h3>
+                      </MenuItem>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Hidden>
 
               <Grid item xs className={classes.content}>
                 <Container maxWidth="lg" className={classes.contentWrapper}>
@@ -202,12 +271,127 @@ class Spoofy extends Component {
             </Grid>
           </Grid>
 
-          <Grid item className={classes.friendBar}>
-            <h3>Friend Activity</h3>
-          </Grid>
+          <Box display={{ xs: "none", lg: "block" }}>
+            <Grid item className={classes.friendBar}>
+              <h3>Friend Activity</h3>
+            </Grid>
+          </Box>
 
           <Playbar albumSrc={starbomb} />
         </Grid>
+
+        <SwipeableDrawer
+          anchor="right"
+          open={this.state.drawerOpen}
+          onClose={this.toggleDrawer(false)}
+          onOpen={this.toggleDrawer(true)}
+          disableBackdropTransition={!iOS}
+          disableDiscovery={iOS}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          <Grid item className={classes.drawer}>
+            <Grid
+              container
+              direction="column"
+              spacing={1}
+              style={{ width: "100%" }}
+            >
+              <Grid
+                item
+                container
+                direction="row"
+                alignItems="center"
+                justify="flex-end"
+              >
+                <Grid item>
+                  <IconButton
+                    color="primary"
+                    variant="contained"
+                    onClick={() =>
+                      this.setState({ drawerOpen: !this.state.drawerOpen })
+                    }
+                  >
+                    <CloseIcon fontSize="large" />
+                  </IconButton>
+                </Grid>
+              </Grid>
+
+              <Grid item>
+                <MenuItem active={true}>
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems="center"
+                    className={classes.menuContent}
+                  >
+                    <Grid item>
+                      <HomeIcon />
+                    </Grid>
+                    <Grid item>
+                      <h3>Home</h3>
+                    </Grid>
+                  </Grid>
+                </MenuItem>
+              </Grid>
+
+              <Grid item>
+                <MenuItem active={false}>
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems="center"
+                    className={classes.menuContent}
+                  >
+                    <Grid item>
+                      <AlbumIcon />
+                    </Grid>
+                    <Grid item>
+                      <h3>Browse</h3>
+                    </Grid>
+                  </Grid>
+                </MenuItem>
+              </Grid>
+
+              <Grid item>
+                <MenuItem active={false}>
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems="center"
+                    className={classes.menuContent}
+                  >
+                    <Grid item>
+                      <RadioIcon />
+                    </Grid>
+                    <Grid item>
+                      <h3>Radio</h3>
+                    </Grid>
+                  </Grid>
+                </MenuItem>
+              </Grid>
+
+              <Grid item>
+                <Typography
+                  variant="h5"
+                  noWrap={true}
+                  style={{
+                    marginBottom: "1rem",
+                    marginTop: "1rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  YOUR LIBRARY
+                </Typography>
+              </Grid>
+
+              <MenuItem active={false}>
+                <h3>Avi Stories</h3>
+              </MenuItem>
+            </Grid>
+          </Grid>
+        </SwipeableDrawer>
       </div>
     );
   }
