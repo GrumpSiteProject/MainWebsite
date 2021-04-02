@@ -75,7 +75,8 @@ export const styles = (theme) => ({
   main: {},
 
   sidebar: {
-    padding: theme.spacing(2),
+    height: "100%",
+    paddingBottom: theme.spacing(2),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
   },
@@ -84,6 +85,13 @@ export const styles = (theme) => ({
 
   sidebarLogo: {
     width: "100%",
+  },
+
+  stickyMenu: {
+    paddingTop: theme.spacing(2),
+    position: "sticky",
+    top: 0,
+    left: 0,
   },
 
   content: {
@@ -101,11 +109,18 @@ export const styles = (theme) => ({
 
   friendBar: {
     background: "#111111",
-    padding: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
     height: "calc(100% + 9rem)",
     marginBottom: "-9rem",
+  },
+
+  friendActivity: {
+    paddingTop: theme.spacing(2),
+    position: "sticky",
+    top: 0,
+    left: 0,
   },
 
   title: {

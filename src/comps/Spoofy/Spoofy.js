@@ -19,13 +19,10 @@ import { styles } from "../../assets/styles/SpoofyStyles";
 // Icons
 import MenuIcon from "@material-ui/icons/MenuRounded";
 import CloseIcon from "@material-ui/icons/CloseRounded";
-import HomeIcon from "@material-ui/icons/HomeRounded";
-import AlbumIcon from "@material-ui/icons/AlbumRounded";
-import RadioIcon from "@material-ui/icons/RadioRounded";
 
 // Page components
 import Navbar from "../../staticComps/Navbar";
-import MenuItem from "./MenuItem";
+import Menu from "./Menu";
 import Home from "./Home";
 import Browse from "./Browse";
 import Radio from "./Radio";
@@ -165,85 +162,13 @@ class Spoofy extends Component {
             </Hidden>
 
             <Grid container direction="row">
-              <Hidden mdDown>
+              <Box display={{ xs: "none", lg: "block" }}>
                 <Grid item className={classes.sidebar}>
-                  <Grid container direction="column" spacing={1}>
-                    <Grid item>
-                      <MenuItem active={true}>
-                        <Grid
-                          container
-                          spacing={2}
-                          alignItems="center"
-                          className={classes.menuContent}
-                        >
-                          <Grid item>
-                            <HomeIcon />
-                          </Grid>
-                          <Grid item>
-                            <h3>Home</h3>
-                          </Grid>
-                        </Grid>
-                      </MenuItem>
-                    </Grid>
-
-                    <Grid item>
-                      <MenuItem active={false}>
-                        <Grid
-                          container
-                          spacing={2}
-                          alignItems="center"
-                          className={classes.menuContent}
-                        >
-                          <Grid item>
-                            <AlbumIcon />
-                          </Grid>
-                          <Grid item>
-                            <h3>Browse</h3>
-                          </Grid>
-                        </Grid>
-                      </MenuItem>
-                    </Grid>
-
-                    <Grid item>
-                      <MenuItem active={false}>
-                        <Grid
-                          container
-                          spacing={2}
-                          alignItems="center"
-                          className={classes.menuContent}
-                        >
-                          <Grid item>
-                            <RadioIcon />
-                          </Grid>
-                          <Grid item>
-                            <h3>Radio</h3>
-                          </Grid>
-                        </Grid>
-                      </MenuItem>
-                    </Grid>
-
-                    <Grid item>
-                      <Typography
-                        variant="h5"
-                        noWrap={true}
-                        style={{
-                          marginBottom: "1rem",
-                          marginTop: "1rem",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        YOUR LIBRARY
-                      </Typography>
-                    </Grid>
-
-                    <Grid item>
-                      <MenuItem active={false}>
-                        <h3>Avi Stories</h3>
-                      </MenuItem>
-                    </Grid>
-                  </Grid>
+                  <div className={classes.stickyMenu}>
+                    <Menu />
+                  </div>
                 </Grid>
-              </Hidden>
+              </Box>
 
               <Grid item xs className={classes.content}>
                 <Container maxWidth="lg" className={classes.contentWrapper}>
@@ -273,7 +198,9 @@ class Spoofy extends Component {
 
           <Box display={{ xs: "none", lg: "block" }}>
             <Grid item className={classes.friendBar}>
-              <h3>Friend Activity</h3>
+              <div className={classes.friendActivity}>
+                <h3>Friend Activity</h3>
+              </div>
             </Grid>
           </Box>
 
@@ -319,76 +246,8 @@ class Spoofy extends Component {
               </Grid>
 
               <Grid item>
-                <MenuItem active={true}>
-                  <Grid
-                    container
-                    spacing={2}
-                    alignItems="center"
-                    className={classes.menuContent}
-                  >
-                    <Grid item>
-                      <HomeIcon />
-                    </Grid>
-                    <Grid item>
-                      <h3>Home</h3>
-                    </Grid>
-                  </Grid>
-                </MenuItem>
+                <Menu />
               </Grid>
-
-              <Grid item>
-                <MenuItem active={false}>
-                  <Grid
-                    container
-                    spacing={2}
-                    alignItems="center"
-                    className={classes.menuContent}
-                  >
-                    <Grid item>
-                      <AlbumIcon />
-                    </Grid>
-                    <Grid item>
-                      <h3>Browse</h3>
-                    </Grid>
-                  </Grid>
-                </MenuItem>
-              </Grid>
-
-              <Grid item>
-                <MenuItem active={false}>
-                  <Grid
-                    container
-                    spacing={2}
-                    alignItems="center"
-                    className={classes.menuContent}
-                  >
-                    <Grid item>
-                      <RadioIcon />
-                    </Grid>
-                    <Grid item>
-                      <h3>Radio</h3>
-                    </Grid>
-                  </Grid>
-                </MenuItem>
-              </Grid>
-
-              <Grid item>
-                <Typography
-                  variant="h5"
-                  noWrap={true}
-                  style={{
-                    marginBottom: "1rem",
-                    marginTop: "1rem",
-                    fontWeight: "bold",
-                  }}
-                >
-                  YOUR LIBRARY
-                </Typography>
-              </Grid>
-
-              <MenuItem active={false}>
-                <h3>Avi Stories</h3>
-              </MenuItem>
             </Grid>
           </Grid>
         </SwipeableDrawer>
