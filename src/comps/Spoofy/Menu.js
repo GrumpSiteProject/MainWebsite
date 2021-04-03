@@ -18,12 +18,15 @@ const useStyles = makeStyles((theme) => ({
   menuContent: {},
 }));
 
-export default function Menu(props) {
+function Menu(props) {
   const classes = useStyles();
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
-        <MenuItem active={true}>
+        <MenuItem
+          clickEvent={(e) => props.scrollEvent(e, props.refs[0])}
+          active={props.currentSection === "home"}
+        >
           <Grid
             container
             spacing={2}
@@ -41,7 +44,10 @@ export default function Menu(props) {
       </Grid>
 
       <Grid item>
-        <MenuItem active={false}>
+        <MenuItem
+          clickEvent={(e) => props.scrollEvent(e, props.refs[1])}
+          active={props.currentSection === "browse"}
+        >
           <Grid
             container
             spacing={2}
@@ -59,7 +65,10 @@ export default function Menu(props) {
       </Grid>
 
       <Grid item>
-        <MenuItem active={false}>
+        <MenuItem
+          clickEvent={(e) => props.scrollEvent(e, props.refs[2])}
+          active={props.currentSection === "radio"}
+        >
           <Grid
             container
             spacing={2}
@@ -91,10 +100,15 @@ export default function Menu(props) {
       </Grid>
 
       <Grid item>
-        <MenuItem active={false}>
+        <MenuItem
+          clickEvent={(e) => props.scrollEvent(e, props.refs[0])}
+          active={props.currentSection === "avi"}
+        >
           <h3>Avi Stories</h3>
         </MenuItem>
       </Grid>
     </Grid>
   );
 }
+
+export default Menu;

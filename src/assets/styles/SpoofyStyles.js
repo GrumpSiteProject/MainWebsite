@@ -51,6 +51,7 @@ export const styles = (theme) => ({
 
   logo: {
     height: "100%",
+    cursor: "pointer",
   },
 
   navbarWrapper: {

@@ -39,6 +39,7 @@ export default function MenuItem(props) {
   return (
     <a
       href="#"
+      onClick={props.clickEvent}
       className={`${props.active ? classes.active : classes.inactive} ${
         classes.root
       }`}

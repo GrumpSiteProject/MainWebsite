@@ -1,6 +1,6 @@
 // Music gallery page
 
-import { Component } from "react";
+import { Component, createRef } from "react";
 import PropTypes from "prop-types";
 
 // Material UI components
@@ -39,11 +39,77 @@ import starbomb from "../../assets/images/spoofy/artistCovers/Starbomb.png";
 class Spoofy extends Component {
   constructor(props) {
     super(props);
+
+    const homeRef = createRef();
+    const browseRef = createRef();
+    const radioRef = createRef();
+
     this.state = {
       top: false,
       bottom: false,
       drawerOpen: false,
+
+      visibleSection: "home",
+
+      homeRef: homeRef,
+      browseRef: browseRef,
+      radioRef: radioRef,
+
+      sections: [
+        { section: "home", ref: homeRef },
+        { section: "browse", ref: browseRef },
+        { section: "radio", ref: radioRef },
+      ],
     };
+  }
+
+  scrollTo(e, ref) {
+    if (e && ref && ref.current) {
+      e.preventDefault();
+      ref.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }
+
+  handleScroll() {
+    this.checkTop();
+    this.checkBottom();
+    this.checkSection();
+  }
+
+  getDimensions(el) {
+    const { height } = el.getBoundingClientRect();
+    const offsetTop = el.offsetTop;
+    const offsetBottom = offsetTop + height;
+
+    return {
+      height,
+      offsetTop,
+      offsetBottom,
+    };
+  }
+
+  checkSection() {
+    const scrollPosition = document.getElementById("app").scrollTop;
+
+    const currentSection = this.state.sections.find((section) => {
+      const ele = section.ref.current;
+      if (ele) {
+        const { offsetBottom, offsetTop } = this.getDimensions(ele);
+        return scrollPosition > offsetTop && scrollPosition < offsetBottom;
+      }
+    });
+
+    if (
+      currentSection &&
+      currentSection.section !== this.state.visibleSection
+    ) {
+      this.setState({ visibleSection: currentSection.section });
+    } else if (!currentSection && this.state.visibleSection) {
+      this.setState({ visibleSection: "home" });
+    }
   }
 
   // Checks if the app has been scrolled to the bottom
@@ -73,17 +139,13 @@ class Spoofy extends Component {
     }
   };
 
-  toggleDrawer = (open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
+  toggleDrawer(e, open) {
+    if (e && e.type === "keydown" && (e.key === "Tab" || e.key === "Shift")) {
       return;
     }
 
     this.setState({ drawerOpen: open });
-  };
+  }
 
   componentDidMount() {
     console.log(
@@ -93,18 +155,17 @@ class Spoofy extends Component {
     `
     );
 
-    this.checkTop();
-    this.checkBottom();
+    this.handleScroll();
 
-    document.getElementById("app").addEventListener("scroll", this.checkTop);
-    document.getElementById("app").addEventListener("scroll", this.checkBottom);
+    document
+      .getElementById("app")
+      .addEventListener("scroll", () => this.handleScroll());
   }
 
   componentWillUnmount() {
-    document.getElementById("app").removeEventListener("scroll", this.checkTop);
     document
       .getElementById("app")
-      .removeEventListener("scroll", this.checkBottom);
+      .removeEventListener("scroll", () => this.handleScroll());
   }
 
   render() {
@@ -143,7 +204,12 @@ class Spoofy extends Component {
                   }`}
                 >
                   <Grid item xs className={classes.logoWrapper}>
-                    <img alt="spoofy" src={logoSm} className={classes.logo} />
+                    <img
+                      alt="spoofy"
+                      src={logoSm}
+                      className={classes.logo}
+                      onClick={(e) => this.scrollTo(e, this.state.homeRef)}
+                    />
                   </Grid>
 
                   <Grid item>
@@ -165,7 +231,15 @@ class Spoofy extends Component {
               <Box display={{ xs: "none", lg: "block" }}>
                 <Grid item className={classes.sidebar}>
                   <div className={classes.stickyMenu}>
-                    <Menu />
+                    <Menu
+                      refs={[
+                        this.state.homeRef,
+                        this.state.browseRef,
+                        this.state.radioRef,
+                      ]}
+                      scrollEvent={(e, ref) => this.scrollTo(e, ref)}
+                      currentSection={this.state.visibleSection}
+                    />
                   </div>
                 </Grid>
               </Box>
@@ -173,15 +247,15 @@ class Spoofy extends Component {
               <Grid item xs className={classes.content}>
                 <Container maxWidth="lg" className={classes.contentWrapper}>
                   <Grid container direction="column" spacing={8}>
-                    <Grid item xs>
+                    <Grid item xs ref={this.state.homeRef}>
                       <Home classes={classes} />
                     </Grid>
 
-                    <Grid item xs>
+                    <Grid item xs ref={this.state.browseRef}>
                       <Browse classes={classes} />
                     </Grid>
 
-                    <Grid item xs>
+                    <Grid item xs ref={this.state.radioRef}>
                       <Radio classes={classes} />
                     </Grid>
                   </Grid>
@@ -210,8 +284,8 @@ class Spoofy extends Component {
         <SwipeableDrawer
           anchor="right"
           open={this.state.drawerOpen}
-          onClose={this.toggleDrawer(false)}
-          onOpen={this.toggleDrawer(true)}
+          onClose={(e) => this.toggleDrawer(e, false)}
+          onOpen={(e) => this.toggleDrawer(e, true)}
           disableBackdropTransition={!iOS}
           disableDiscovery={iOS}
           ModalProps={{
@@ -246,7 +320,15 @@ class Spoofy extends Component {
               </Grid>
 
               <Grid item>
-                <Menu />
+                <Menu
+                  refs={[
+                    this.state.homeRef,
+                    this.state.browseRef,
+                    this.state.radioRef,
+                  ]}
+                  scrollEvent={(e, ref) => this.scrollTo(e, ref)}
+                  currentSection={this.state.visibleSection}
+                />
               </Grid>
             </Grid>
           </Grid>
