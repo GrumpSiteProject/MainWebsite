@@ -10,7 +10,6 @@ import Hidden from "@material-ui/core/Hidden";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 
 // Material UI stlying
 import { withStyles } from "@material-ui/core/styles";

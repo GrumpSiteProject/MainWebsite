@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 
 // Material UI stlying
 import { makeStyles } from "@material-ui/core/styles";
+
 // Icons
 import HomeIcon from "@material-ui/icons/HomeRounded";
 import AlbumIcon from "@material-ui/icons/AlbumRounded";
