@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   coverWrapper: {
-    width: "5rem",
+    width: "4rem",
     marginRight: theme.spacing(2),
     "@media screen and (max-width: 600px)": {
       width: "3rem",
