@@ -59,6 +59,8 @@ class Spoofy extends Component {
         { section: "browse", ref: browseRef },
         { section: "radio", ref: radioRef },
       ],
+
+      windowWidth: window.innerWidth,
     };
   }
 
@@ -76,6 +78,10 @@ class Spoofy extends Component {
     this.checkTop();
     this.checkBottom();
     this.checkSection();
+  }
+
+  handleResize() {
+    this.setState({ windowWidth: window.innerWidth });
   }
 
   getDimensions(el) {
@@ -159,12 +165,14 @@ class Spoofy extends Component {
     document
       .getElementById("app")
       .addEventListener("scroll", () => this.handleScroll());
+    window.addEventListener("resize", () => this.handleResize());
   }
 
   componentWillUnmount() {
     document
       .getElementById("app")
       .removeEventListener("scroll", () => this.handleScroll());
+    window.addEventListener("resize", () => this.handleResize());
   }
 
   render() {
@@ -280,58 +288,60 @@ class Spoofy extends Component {
           <Playbar albumSrc={starbomb} />
         </Grid>
 
-        <SwipeableDrawer
-          anchor="right"
-          open={this.state.drawerOpen}
-          onClose={(e) => this.toggleDrawer(e, false)}
-          onOpen={(e) => this.toggleDrawer(e, true)}
-          disableBackdropTransition={!iOS}
-          disableDiscovery={iOS}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        >
-          <Grid item className={classes.drawer}>
-            <Grid
-              container
-              direction="column"
-              spacing={1}
-              style={{ width: "100%" }}
-            >
+        {this.state.windowWidth < 1280 && (
+          <SwipeableDrawer
+            anchor="right"
+            open={this.state.drawerOpen}
+            onClose={(e) => this.toggleDrawer(e, false)}
+            onOpen={(e) => this.toggleDrawer(e, true)}
+            disableBackdropTransition={!iOS}
+            disableDiscovery={iOS}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            <Grid item className={classes.drawer}>
               <Grid
-                item
                 container
-                direction="row"
-                alignItems="center"
-                justify="flex-end"
+                direction="column"
+                spacing={1}
+                style={{ width: "100%" }}
               >
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  alignItems="center"
+                  justify="flex-end"
+                >
+                  <Grid item>
+                    <IconButton
+                      color="primary"
+                      variant="contained"
+                      onClick={() =>
+                        this.setState({ drawerOpen: !this.state.drawerOpen })
+                      }
+                    >
+                      <CloseIcon fontSize="large" />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+
                 <Grid item>
-                  <IconButton
-                    color="primary"
-                    variant="contained"
-                    onClick={() =>
-                      this.setState({ drawerOpen: !this.state.drawerOpen })
-                    }
-                  >
-                    <CloseIcon fontSize="large" />
-                  </IconButton>
+                  <Menu
+                    refs={[
+                      this.state.homeRef,
+                      this.state.browseRef,
+                      this.state.radioRef,
+                    ]}
+                    scrollEvent={(e, ref) => this.scrollTo(e, ref)}
+                    currentSection={this.state.visibleSection}
+                  />
                 </Grid>
               </Grid>
-
-              <Grid item>
-                <Menu
-                  refs={[
-                    this.state.homeRef,
-                    this.state.browseRef,
-                    this.state.radioRef,
-                  ]}
-                  scrollEvent={(e, ref) => this.scrollTo(e, ref)}
-                  currentSection={this.state.visibleSection}
-                />
-              </Grid>
             </Grid>
-          </Grid>
-        </SwipeableDrawer>
+          </SwipeableDrawer>
+        )}
       </div>
     );
   }
